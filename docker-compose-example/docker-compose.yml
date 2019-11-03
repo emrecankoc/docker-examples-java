@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  app:
+    image: helloworldapp
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - PORT=8080
+      - DB_URL=postgresql://db:5432/test_db
+      - DB_USERNAME=testuser
+      - DB_PASSWORD=testpassword
+    depends_on:
+      - db
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpassword
+      - POSTGRES_DB=test_db
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres_data:
